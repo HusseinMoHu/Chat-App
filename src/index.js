@@ -17,10 +17,19 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
   console.log('New Websocket connection')
 
+  // emit to Particular connection
   socket.emit('message', 'Welcome!')
+  // emit to everybody BUT that  particular connection
+  socket.broadcast.emit('message', 'A new user has joined!')
 
   socket.on('sendMessage', (message) => {
+    // emit to everybody
     io.emit('message', message)
+  })
+
+  // disconnect is built-in event, So no need to bind it to client side
+  socket.on('disconnect', () => {
+    io.emit('message', 'A user has left!')
   })
 })
 
