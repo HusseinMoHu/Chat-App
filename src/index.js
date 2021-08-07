@@ -22,9 +22,10 @@ io.on('connection', (socket) => {
   // emit to everybody BUT that  particular connection
   socket.broadcast.emit('message', 'A new user has joined!')
 
-  socket.on('sendMessage', (message) => {
+  socket.on('sendMessage', (message, callback) => {
     // emit to everybody
     io.emit('message', message)
+    callback('Delivered!') // fire acknowledgement to client
   })
 
   socket.on('sendLocation', (coords) => {
