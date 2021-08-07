@@ -33,8 +33,9 @@ io.on('connection', (socket) => {
     callback()
   })
 
-  socket.on('sendLocation', (coords) => {
+  socket.on('sendLocation', (coords, callback) => {
     io.emit('message', `https://google.com/maps?q=${coords.lat},${coords.long}`)
+    callback()
   })
 
   // disconnect is built-in event, So no need to bind it to client side
