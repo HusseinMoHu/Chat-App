@@ -6,9 +6,11 @@ document.querySelector('#message-form').addEventListener('submit', (e) => {
   // Get message from input field by input_name
   const message = e.target.elements.message.value
 
-  socket.emit('sendMessage', message, (message) => {
-    // Receive the acknowledgment from server
-    console.log('The server has received the message successfully.', message)
+  socket.emit('sendMessage', message, (error) => {
+    if (error) {
+      return console.log(error)
+    }
+    console.log('Message delivered.')
   })
 })
 
