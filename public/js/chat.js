@@ -5,19 +5,33 @@ const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#send-location')
+const $messages = document.querySelector('#messages')
+
+// Templates
+const messageTemplate = document.querySelector('#message-template').innerHTML
+const locationTemplate = document.querySelector('#location-template').innerHTML
+
+socket.on('message', (message) => {
+  console.log(message)
+  const html = Mustache.render(messageTemplate, { message })
+  $messages.insertAdjacentHTML('beforeend', html)
+})
+
+socket.on('locationMessage', (url) => {
+  const html = Mustache.render(locationTemplate, { url })
+  $messages.insertAdjacentHTML('beforeend', html)
+})
 
 $messageForm.addEventListener('submit', (e) => {
-  e.preventDefault() // Prevent page refresh after form submitted
+  e.preventDefault()
 
-  // disable button after send msg
   $messageFormButton.setAttribute('disabled', 'disabled')
 
   const message = e.target.elements.message.value
 
   socket.emit('sendMessage', message, (error) => {
-    // enable button after msg is sent
     $messageFormButton.removeAttribute('disabled')
-    // clear input field
+
     $messageFormInput.value = ''
     $messageFormInput.focus()
 
@@ -28,10 +42,6 @@ $messageForm.addEventListener('submit', (e) => {
 
     console.log('Message delivered.')
   })
-})
-
-socket.on('message', (message) => {
-  console.log(message)
 })
 
 $sendLocationButton.addEventListener('click', () => {
