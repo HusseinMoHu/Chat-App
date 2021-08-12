@@ -3,7 +3,7 @@ Chat App built using NodeJs, Express, JavaScript, Socket.IO, Mustache, Moment.js
 
 ## Hosted Domain Link
 
-[Task Manager API](https://hussien-task-manager.herokuapp.com/)
+[Chat-Link](https://hussien-task-manager.herokuapp.com/)
 
 ## Quick start
 
